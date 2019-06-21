@@ -1,10 +1,5 @@
 $(document).ready(function() {
-
-	// init vars for better controls
-	var isMouseDown = false;
-	var tsLast = Date.now();
 	var socket = io.connect('');
-
 	socket.on('serverError', function (data) {
 		alert(data);
 	});
@@ -13,22 +8,6 @@ $(document).ready(function() {
 		$('#command').val(data.val);
 		openGCodeFromText();
 		alert('new data from jscut');
-	});
-
-	// config from server
-	socket.on('config', function (data) {
-		if (data.showWebCam == true) {
-			// show the webcam and link
-
-			var webroot = window.location.protocol+'//'+window.location.hostname;
-			//console.log(webroot);
-
-			$('#wcImg').attr('src', webroot+':'+data.webcamPort+'/?action=stream');
-
-			$('#wcLink').attr('href', webroot+':'+data.webcamPort+'/javascript_simple.html');
-
-			$('#webcam').css('display','inline-block');
-		}
 	});
 
 	socket.on('ports', function (data) {
@@ -49,9 +28,9 @@ $(document).ready(function() {
 
 	socket.on('machineStatus', function (data) {
 		$('#mStatus').html(data.status);
-		$('#mX').html('X: '+data.mpos[0]);
-		$('#mY').html('Y: '+data.mpos[1]);
-		$('#mZ').html('Z: '+data.mpos[2]);
+		$('#wX1').html('X: '+data.wpos[0]);
+		$('#wY1').html('Y: '+data.wpos[1]);
+		$('#wZ1').html('Z: '+data.wpos[2]);
 		$('#wX').html('X: '+data.wpos[0]);
 		$('#wY').html('Y: '+data.wpos[1]);
 		$('#wZ').html('Z: '+data.wpos[2]);
@@ -161,6 +140,27 @@ $(document).ready(function() {
 	$('#zM').on('click', function() {
 		socket.emit('gcodeLine', { line: 'G91\nG1 F'+$('#jogSpeed').val()+' Z-'+$('#jogSize').val()+'\nG90'});
 	});
+	//right sidebar
+	$('#xM1').on('click', function() {
+		socket.emit('gcodeLine', { line: 'G91\nG1 F'+$('#jogSpeed').val()+' X-'+$('#jogSize').val()+'\nG90'});
+	});
+	$('#xP1').on('click', function() {
+		socket.emit('gcodeLine', { line: 'G91\nG1 F'+$('#jogSpeed').val()+' X'+$('#jogSize').val()+'\nG90'});
+	});
+	$('#yP1').on('click', function() {
+		socket.emit('gcodeLine', { line: 'G91\nG1 F'+$('#jogSpeed').val()+' Y'+$('#jogSize').val()+'\nG90'});
+	});
+	$('#yM1').on('click', function() {
+		socket.emit('gcodeLine', { line: 'G91\nG1 F'+$('#jogSpeed').val()+' Y-'+$('#jogSize').val()+'\nG90'});
+	});
+	$('#zP1').on('click', function() {
+		socket.emit('gcodeLine', { line: 'G91\nG1 F'+$('#jogSpeed').val()+' Z'+$('#jogSize').val()+'\nG90'});
+	});
+	$('#zM1').on('click', function() {
+		socket.emit('gcodeLine', { line: 'G91\nG1 F'+$('#jogSpeed').val()+' Z-'+$('#jogSize').val()+'\nG90'});
+	});
+
+
 
 	// WASD and up/down keys
 	$(document).keydown(function (e) {
@@ -205,14 +205,15 @@ $(document).ready(function() {
 		}
 	});
 
+
+
 	// handle gcode uploads
 	if (window.FileReader) {
 
 		var reader = new FileReader ();
-
 		// drag and drop
 		function dragEvent (ev) {
-			ev.stopPropagation ();
+			ev.stopPropagation (); 
 			ev.preventDefault ();
 			if (ev.type == 'drop') {
 				reader.onloadend = function (ev) {
@@ -220,7 +221,7 @@ $(document).ready(function() {
 					openGCodeFromText();
 				};
 				reader.readAsText (ev.dataTransfer.files[0]);
-			}
+			}  
 		}
 
 		document.getElementById('command').addEventListener ('dragenter', dragEvent, false);
