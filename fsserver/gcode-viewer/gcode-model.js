@@ -94,7 +94,14 @@ function createObjectFromGCode(gcode) {
 
     var parser = new GCodeParser({
         G1: function(args, line) {
-         
+            // Example: G1 Z1.0 F3000
+            //          G1 X99.9948 Y80.0611 Z15.0 F1500.0 E981.64869
+            //          G1 E104.25841 F1800.0
+            // Go in a straight line from the current (X, Y) point
+            // to the point (90.6, 13.8), extruding material as the move
+            // happens from the current extruded length to a length of
+            // 22.4 mm.
+
             var newLine = {
                 x: args.x !== undefined ? absolute(lastLine.x, args.x) : lastLine.x,
                 y: args.y !== undefined ? absolute(lastLine.y, args.y) : lastLine.y,
@@ -103,7 +110,14 @@ function createObjectFromGCode(gcode) {
                 f: args.f !== undefined ? absolute(lastLine.f, args.f) : lastLine.f,
             };
 
-        
+            //if (lastLine.x == 0 && lastLine.y == 0 && lastLine.z == 0) {
+            // this is the first iteration
+            // don't draw 
+            //	lastLine = newLine;
+            //}
+
+            /* layer change detection is or made by watching Z, it's made by
+               watching when we extrude at a new Z position */
             if (delta(lastLine.e, newLine.e) > 0) {
                 newLine.extruding = delta(lastLine.e, newLine.e) > 0;
                 if (layer == undefined || newLine.z != layer.z)
@@ -113,7 +127,8 @@ function createObjectFromGCode(gcode) {
             lastLine = newLine;
         },
 
-	
+	// FIXME
+	// add g2/g3 controlled arcs
 	G2: function(args, line) {
 		console.log('G2 detected, unsupported to display but it will send it to the controller');
 	},
@@ -122,6 +137,11 @@ function createObjectFromGCode(gcode) {
 	},
 
         G21: function(args) {
+            // G21: Set Units to Millimeters
+            // Example: G21
+            // Units from now on are in millimeters. (This is the RepRap default.)
+
+            // No-op: So long as G20 is not supported.
         },
 
         G90: function(args) {

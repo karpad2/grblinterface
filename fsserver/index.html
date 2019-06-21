@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>cnc</title>
+<title>CNC controller</title>
 <link rel="stylesheet" href="css/dashboard.css">
 <link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+ <link rel="stylesheet" href="css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="z-index: 2">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">GRBL interface</a>
     </div>
@@ -25,30 +26,24 @@
         </ul>
     </div>
     </nav>
-  <div id="sidebar" class="row container-fluid">
-  <nav class="col-md-2 d-md-block bg-light sidebar ">
+  
+  
+  <nav class="sidebar flex-xl-nowrap" style="z-index: 1;" >
     
-<select id="choosePort" class="form-control">
+<select id="choosePort" class="form-control" style="width: 300px">
 <option value="no">Select a serial port</option>
 </select>
 <ul class="nav nav-tabs nav-justified" role="tablist">
 <li id="mpA">Working Position</li>
 </ul>
 <div id="wPosition" style="align-content: center">
-
 <div id="wX" style="text-align: left; padding-left: 15px; margin: 4px; font-size: 30px; width: 190px; border: 1px solid #aaa; font-weight: bold;">X: 0.000</div>
 <div id="wY" style="text-align: left; padding-left: 15px; margin: 4px; font-size: 30px; width: 190px; border: 1px solid #aaa; font-weight: bold;">Y: 0.000</div>
 <div id="wZ" style="text-align: left; padding-left: 15px; margin: 4px; font-size: 30px; width: 190px; border: 1px solid #aaa; font-weight: bold;">Z: 0.000</div>
-
 </div>
             <button type="button" class="btn btn-default" style="margin-top: 5px; align-content: center" id="sendZero">Zero Machine (G92)</button>
 <hr style="clear: both;" />
 
-<div id="zAxisControl" style="float: right;">
-<button type="button" id="zP" class="btn btn-info btn-sm" style="width: 10px;">&uarr;</button>
-<br />
-<button type="button" id="zM" class="btn btn-info btn-sm" style="width: 10px;">&darr;</button>
-</div>
 
 <br />
 
@@ -67,23 +62,53 @@
 <option value="2">Distance: 2</option>
 <option selected value="5">Distance: 5</option>
 <option value="10">Distance: 10</option>
-<option value="20">Distance: 20</option>
+<option value="30">Distance: 30</option>
 </select>
-</nav>
+  </nav>
+  <div id="wrapper" class="hidden-xs-down">
 
-  
-<div class="col-md-10" role="main">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li>
+          <div class="col-sm-3 .d-none .d-sm-block .d-md-none" >
+            <table class="table-borderless">
+              <tr><td></td><td><button type="button" id="xP" class="btn btn-primary " style="width: 30px;">&uarr; X</button></td><td></td><td><button type="button" id="zP" class="btn btn-primary btn-sm" style="width: 30px;">&uarr; Z</button></td></tr>
+              <tr><td><button type="button" id="yP" class="btn btn-primary " style="width: 30px;">&uarr; Y</button></td><td></td><td><button type="button" id="yM" class="btn btn-primary btn-sm" style="width: 30px;">&darr; Y</button></td><td></td></tr>
+              <tr><td></td><td><button type="button" id="xM" class="btn btn-primary" style="width: 30px;">&darr; X</button></td><td></td><td><button type="button" id="zM" class="btn btn-primary btn-sm" style="width: 30px;">&darr; Z</button></td></tr>
+            </table>
+          </li>  
+          </ul>
+            </div>
+    </div>
+
+
+
+  <div class="container">
+
+<div id="content" class="col-md container">
   <div class="row">
-<div id="renderArea" class="col-md-6"></div>
-<pre id="console" class="col-md-6"></pre>
-  </div>
-<div class="row">
+<div id="renderArea" class="col-md-6 col-lg-8 " style="width: 600px"></div>
 
-<textarea name="gcodes"  class="writebox col-lg-5" id="command"></textarea>
+<div id="cbuttons"  class=".d-block .d-sm-none col-sm-3" >
+    <h2>Working Position</h2>
+    <div id="wPosition" style="align-content: center">
+        <div id="wX1" style="text-align: left; padding-left: 15px; margin: 4px; font-size: 30px; width: 190px; border: 1px solid #aaa; font-weight: bold;">X: 0.000</div>
+        <div id="wY1" style="text-align: left; padding-left: 15px; margin: 4px; font-size: 30px; width: 190px; border: 1px solid #aaa; font-weight: bold;">Y: 0.000</div>
+        <div id="wZ1" style="text-align: left; padding-left: 15px; margin: 4px; font-size: 30px; width: 190px; border: 1px solid #aaa; font-weight: bold;">Z: 0.000</div>
+        </div>
+  <table class="table-borderless">
+    <tr><td></td><td><button type="button" id="xP1" class="btn btn-primary " style="width: 30px;">&uarr; X</button></td><td></td><td><button type="button" id="zP1" class="btn btn-primary btn-sm" style="width: 30px;">&uarr; Z</button></td></tr>
+    <tr><td><button type="button" id="yP1" class="btn btn-primary " style="width: 30px;">&uarr; Y</button></td><td></td><td><button type="button" id="yM1" class="btn btn-primary btn-sm" style="width: 30px;">&darr; Y</button></td><td></td></tr>
+    <tr><td></td><td><button type="button" id="xM1" class="btn btn-primary" style="width: 30px;">&darr; X</button></td><td></td><td><button type="button" id="zM1" class="btn btn-primary btn-sm" style="width: 30px;">&darr; Z</button></td></tr>
+  </table>
 </div>
-  </div>
+<pre id="console" class="col-sm-9 col-md-6 col-lg-8"></pre>
   </div>
 
+<textarea name="gcodes"  class="writebox col-md-6 col-lg-8" id="command"></textarea>
+  </div>
+  
+</div>
     <nav id="footer" class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
         <div class="my-2 my-md-0 ">
         <span style="font-style: italic; color:white">Drag a .gcode or .nc file to the command box or click Upload GCODE to upload it.</span>
@@ -113,7 +138,7 @@
     <script src="gcode-viewer/gcode-model.js"></script>
     <script src="gcode-viewer/renderer.js"></script>
     <script src="gcode-viewer/ui.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script> <!--Socket io join part-->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
