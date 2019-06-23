@@ -7,13 +7,9 @@
     "electron": "electron ."
   },
   "dependencies": {
-    "electron": "^5.0.0",
     "forever": "^0.15.3",
     "node-static": "0.7.x",
     "serialport": "7.1.5",
     "socket.io": "2.0.x"
-  },
-  "devDependencies": {
-    "electron-builder": "^20.44.4"
   }
 }
