@@ -4,7 +4,7 @@
 			<md-app-toolbar class="md-primary" md-elevation="5">
 				<router-link class="router-link" to="/home">
 					<logo class="bar-logo" />
-					<span class="md-title">Escape Room Management Software</span>
+					<span class="md-title">Interface</span>
 				</router-link>
 			</md-app-toolbar>
 

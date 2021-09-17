@@ -41,3 +41,5 @@ node_modules
 .package-lock.json
 package-lock.json
 yarn.lock
+src/firebase/credentials.json
+dist
