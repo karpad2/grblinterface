@@ -1,0 +1,40 @@
+$primary: #00695c;
+$accent: #1b5e20;
+$labelColor: #dadbc0;
+.md-progress-spinner {
+    margin: 24px;
+  }
+  .md-field {
+		max-width: 500px;
+	}
+
+	.section {
+		margin-bottom: 50px;
+	}
+
+	.contact {
+		width: 320px;
+		max-width: 100%;
+		display: inline-block;
+		vertical-align: top;
+		overflow: auto;
+		border: 1px solid orange;
+	}
+
+	.md-avatar {
+		margin: 36px;
+	}
+.bar-logo{
+	height: 50px;
+}
+.section {
+	margin-bottom: 50px;
+}
+.center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	text-align: center;
+}

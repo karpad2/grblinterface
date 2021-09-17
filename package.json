@@ -1,15 +1,78 @@
 {
-  "name": "cnc",
-  "description": "cnc",
-  "main": "main.js",
+  "name": "grblinterface",
+  "version": "0.1.0",
+  "private": false,
   "scripts": {
-    "start": "node ./www/server.js",
-    "electron": "electron ."
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "dev": "vue-cli-service serve & sleep 5 && electron ."
   },
   "dependencies": {
-    "forever": "^0.15.3",
-    "node-static": "0.7.x",
-    "serialport": "7.1.5",
-    "socket.io": "2.0.x"
-  }
+    
+    "bootstrap-icons": "^1.5.0",
+    "bootstrap-icons-vue": "^0.7.0",
+    "bootstrap-vue": "^2.21.2",
+    "core-js": "^3.6.4",
+    "crypto-js": "^4.1.1",
+    
+    "firebase": "^9.0.0-beta.7",
+    "firebase-auth": "^0.1.2",
+    "firebase-cli": "^1.2.0",
+    "firebase-tools": "^9.16.5",
+    "fork-me-on-github-vue": "^1.0.7",
+    "lzma": "^2.3.2",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "v-calendar": "^2.3.2",
+    "vue": "^2.6.11",
+    "vue-audio-recorder": "^3.0.1",
+    "vue-cli-plugin-pwa": "^4.6.0",
+    "vue-cookie-law": "^1.13.3",
+    "vue-cookies": "^1.7.4",
+    "vue-material": "^1.0.0-beta-12",
+    "vue-router": "^3.5",
+    "vue-webble": "^0.1.0",
+    "vuejs-noty": "^0.1.3",
+    "web-bluetooth-terminal": "^1.3.3",
+    "yarn": "^1.22.11"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.3.0",
+    "@vue/cli-plugin-eslint": "~4.3.0",
+    "@vue/cli-service": "~4.3.0",
+    "@webpack-cli/generators": "^2.3.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.17.0",
+    "node-sass": "^4.14.0",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.46.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {
+      "strict": "off",
+      "no-unused-vars": "off",
+      "no-mixed-spaces-and-tabs": "off",
+      "vue/no-parsing-error": "off"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 8"
+  ]
 }
