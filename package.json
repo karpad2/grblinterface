@@ -9,13 +9,11 @@
     "dev": "vue-cli-service serve & sleep 5 && electron ."
   },
   "dependencies": {
-    
     "bootstrap-icons": "^1.5.0",
     "bootstrap-icons-vue": "^0.7.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.4",
     "crypto-js": "^4.1.1",
-    
     "firebase": "^9.0.0-beta.7",
     "firebase-auth": "^0.1.2",
     "firebase-cli": "^1.2.0",
@@ -24,6 +22,7 @@
     "lzma": "^2.3.2",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
+    "three": "^0.132.2",
     "v-calendar": "^2.3.2",
     "vue": "^2.6.11",
     "vue-audio-recorder": "^3.0.1",

@@ -7,7 +7,7 @@
 				</md-button>
 				<router-link class="router-link" to="/home">
 					<logo class="bar-logo" />
-					<span class="md-title">GRBL Interface</span>
+					<span class="md-title">Interface</span>
 				</router-link>
 				<div  class="md-toolbar-section-end">
         			
@@ -17,7 +17,7 @@
      		 	</div>
 				</md-app-toolbar>
 
-			<md-app-drawer :md-active.sync="menuVisible" md-persistent="mini">
+			<md-app-drawer v-if="menuVisible" md-persistent="mini">
 				<md-toolbar class="md-transparent" md-elevation="3">
 					<span>Navigation</span>
 					<div class="md-toolbar-section-end">
@@ -50,7 +50,7 @@
 				</md-list>
 			</md-app-drawer>
 
-	<md-drawer class="md-right" :md-active.sync="showSidepanel">
+	<md-drawer class="md-right" v-if="showSidepanel">
       <md-toolbar class="md-transparent" md-elevation="0">
         <span class="md-title">Account</span>
       </md-toolbar>

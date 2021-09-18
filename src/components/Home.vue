@@ -1,55 +1,78 @@
 <template>
 	<div>
 		<div class="section">
-	<md-card md-with-hover>
+
+      <positions :apositions="positions"/>
+	  <md-card>
       <md-card-header>
-        <div class="md-title">Profile</div>
+        <div class="md-title">Actions</div>
       </md-card-header>
 
       <md-card-content>
-        Hello, <span class="profile">{{profilename}}</span>
-      </md-card-content>
+        <md-button class="md-raised md-secondary"  @click="send_zero">Zero the Machine (G92)</md-button>
+		<md-button class="md-raised md-secondary"  @click="reset_device">RESET (ctrl-x)</md-button>
+		<md-button class="md-raised md-secondary"  @click="send_settings">settings ($$)</md-button>
+		<md-button class="md-raised md-secondary"  @click="send_pause">Pause</md-button>
+		<md-button class="md-raised md-secondary"  @click="clear_queue">Clear Queue</md-button>
 
-      <md-card-actions>
-        
-      </md-card-actions>
-    </md-card>
-
-	<md-card md-with-hover @click="navigate('devices')">
-      <md-card-header>
-        <div class="md-title">Devices</div>
+		
+       
+	</md-card-content>
+ </md-card> 
+  <md-card> 
+ <md-card-header>
+        <div class="md-title">Jogs</div>
       </md-card-header>
 
       <md-card-content>
-        <span v-if="active==0">Devices are offline</span>
-		<span v-else-if="inactive==0">Devices are online</span>
-		<span v-else>{{active}} are online, and {{inactive}} are offline</span>
+        <b-select v-bind="jog_speed">
+			<b-select-option v-for="jg in jog_speeds" :key="jg" :value="jg">Feed Rate {{jg}}</b-select-option>
+		</b-select>
+
+		<b-select v-bind="jog_size">
+			<b-select-option v-for="jg in jog_sizes" :key="jg" :value="jg">Distance: {{jg}}</b-select-option>
+		</b-select> 
       </md-card-content>
+ </md-card> 
 
-      <md-card-actions>
-        
-      </md-card-actions>
-    </md-card>
+  <md-card> 
+ <md-card-header>
+        <div class="md-title">CAM</div>
+      </md-card-header>
 
+      <md-card-content>
+        <renderarea/>
+      </md-card-content>
+ </md-card>
+		
+		
+
+		
 	
 		</div>
-	<div class="section">
-		<md-card md-with-hover @click="navigate('devices')">
-      <md-card-header>
-        <div class="md-title">Calendar</div>
+		<div class="section">
+			<md-card> 
+ <md-card-header>
+        <div class="md-title">G-code textarea:</div>
       </md-card-header>
-		
+
       <md-card-content>
-        <Calendar :min-date='new Date()' :attributes='attributes'/>
-		
+        <gcodetextarea style="width:400px" />
       </md-card-content>
+ </md-card>
+ <md-card> 
+ <md-card-header>
+        <div class="md-title">Console:</div>
+      </md-card-header>
 
-      <md-card-actions>
-        
-      </md-card-actions>
-    </md-card>
-
-	</div>
+      <md-card-content>
+        <console style="width:400px"/>
+      </md-card-content>
+ </md-card>
+		
+		
+		</div>
+	
 	</div>
 	
 </template>
@@ -57,8 +80,18 @@
 <script>
 import {FireDb,FirebaseAuth,userId} from "@/firebase";
 import {get_data_from_allroomdb,get_rooms,get_data_fromroomdb} from "@/mod_data/get_data";
-import {  Calendar } from 'v-calendar';
+import Positions from './parts/positions.vue';
+import renderarea from './parts/renderarea.vue';
+import gcodetextarea from './parts/gcodetextarea.vue';
+import console from './parts/console.vue';
+/*
+
+
+		*/ 
+
+
 	export default {
+		
 		name: "Home",
 		data: () => ({
 			selectedMovies: [],
@@ -69,13 +102,25 @@ import {  Calendar } from 'v-calendar';
 			devices:{},
 			events:[],
 			date: new Date(),
+			jog_speed:1000,
+			jog_speeds:[1500,1000,500,100,5],
+			jog_sizes:[0.1,0.5,1,2,5,10,30],
+			jog_size:0.5,
+			positions:{x:0,y:0,z:0},
+			command:""
+			
 			
 		}),
 		components:{
-			
-    		Calendar,
+		Positions,
+		renderarea,
+		gcodetextarea,
+		console	
+    		
 		},
-		computed: {
+
+		
+Consolecomputed: {
 			firstDayOfAWeek: {
 				get() {
 					return this.$material.locale.firstDayOfAWeek;
@@ -114,11 +159,32 @@ import {  Calendar } from 'v-calendar';
 			console.log(FirebaseAuth.currentUser);
 			this.get_name();
 			this.events=get_data_from_allroomdb("events");
+			this.file_upload();
 			//console.log(this.$route)
 		},
 		methods: {
 			showSuccess: function () {
 				this.$noty.success("Success!");
+			},
+			send_zero()
+			{
+
+			},
+			reset_device()
+			{
+
+			},
+			clear_queue()
+			{
+
+			},
+			send_pause()
+			{
+
+			},
+			send_settings()
+			{
+
 			},
 			showError: function () {
 				this.$noty.error("Error :(", {
@@ -130,6 +196,17 @@ import {  Calendar } from 'v-calendar';
 			{
 				//this.profilename=;
 				console.log(FirebaseAuth);
+			},
+			file_upload()
+			{
+				var fileInput = document.getElementById('fileInput');
+		fileInput.addEventListener('change', function(e) {
+			reader.onloadend = function (ev) {
+				this.command = this.result;
+				//openGCodeFromText();
+			};
+			reader.readAsText (fileInput.files[0]);
+		});
 			},
 			navigate(k)
 			{
@@ -159,6 +236,7 @@ import {  Calendar } from 'v-calendar';
     },
 		},
 		
+		
 	}
 </script>
 
@@ -172,6 +250,9 @@ import {  Calendar } from 'v-calendar';
   }
   .profile{
 	  font-weight: bold;
+  }
+  .md-button{
+	  margin:10px;
   }
 
 </style>
