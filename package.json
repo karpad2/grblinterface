@@ -10,6 +10,6 @@
     "forever": "^0.15.3",
     "node-static": "0.7.x",
     "serialport": "7.1.5",
-    "socket.io": "2.0.x"
+    "socket.io": "2.5.x"
   }
 }
